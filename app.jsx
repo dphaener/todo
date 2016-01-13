@@ -5,7 +5,8 @@ class App extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = { name: props.name }
+    let { name, color } = props
+    this.state = { name, color }
   }
 
   updateName = (ev) => {
@@ -18,15 +19,29 @@ class App extends React.Component {
     this.setState({ name: value })
   };
 
+  updateColor = (ev) => {
+    let { value } = ev.target
+
+    if (value.length === 0) {
+      value = this.props.color
+    }
+
+    this.setState({ color: value })
+  };
+
   render() {
+    const { name, color } = this.state
+
     return (
-      <div className='container' style={{ color: 'red' }}>
+      <div className='container' style={{ color }}>
         <label>What's your name</label>
-        <input type='text' onChange={this.updateName} />
-        <p>Your name is {this.state.name}</p>
+        <input type='text' onChange={this.updateName} defaultValue={name} />
+        <label>What's your favorite color?</label>
+        <input type='text' defaultValue={color} onChange={this.updateColor} />
+        <p>Your name is {name}</p>
       </div>
     )
   }
 }
 
-ReactDOM.render(<App name='Fred' />, document.getElementById('react'))
+ReactDOM.render(<App name='Fred' color='red' />, document.getElementById('react'))
